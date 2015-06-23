@@ -413,7 +413,12 @@ if (script) {
 	_.filename = script.src;
 
 	if (document.addEventListener && !script.hasAttribute('data-manual')) {
-		document.addEventListener('DOMContentLoaded', _.highlightAll);
+		// See https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
+		if (document.readyState == 'interactive') {
+			_.highlightAll();
+		} else {
+			document.addEventListener('DOMContentLoaded', _.highlightAll);
+		}
 	}
 }
 
